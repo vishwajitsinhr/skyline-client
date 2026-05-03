@@ -5,29 +5,29 @@ require('dotenv').config({ path: '../.env' });
 const sequelize = require('./config/db');
 const Lead = require('./models/Lead.model');
 const leadRoutes = require('./routes/lead.routes');
+const { generalLimiter } = require('./middleware/rateLimiter');
 
 const app = express();
 
 app.use(cors({ origin: process.env.CLIENT_URL || 'http://localhost:5173' }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+app.use(generalLimiter);
 app.use('/api/leads', leadRoutes);
 app.get('/api/health', (_, res) => res.json({ status: 'ok', service: 'Skyline Finserv API' }));
+app.use((req, res) => res.status(404).json({ success: false, message: 'Route not found' }));
+app.use((err, req, res, next) => {
+  console.error('Unhandled error:', err.message);
+  res.status(500).json({ success: false, message: 'Internal server error' });
+});
 
 const PORT = process.env.PORT || 5000;
-
-sequelize
-  .authenticate()
-  .then(() => {
-    console.log('✅ PostgreSQL connected');
-    return sequelize.sync({ alter: true }); // auto creates/updates tables
-  })
-  .then(() => {
-    console.log('✅ Tables synced');
-    app.listen(PORT, () => console.log(`🚀 Server running on http://localhost:${PORT}`));
-  })
+sequelize.authenticate()
+  .then(() => { console.log('✅ PostgreSQL connected'); return sequelize.sync({ alter: true }); })
+  .then(() => { console.log('✅ Tables synced'); app.listen(PORT, () => console.log(`🚀 Server running on http://localhost:${PORT}`)); })
   .catch((err) => {
-    console.error('❌ Database connection failed:', err.message);
+    console.error('❌ Database connection failed:');
+    console.error('Message :', err.message);
+    console.error('Detail  :', err.original?.message || 'N/A');
     process.exit(1);
   });
