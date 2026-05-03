@@ -1,0 +1,72 @@
+.error-boundary {
+  min-height: 100vh;
+  background: var(--navy);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+}
+
+.eb-content {
+  text-align: center;
+  max-width: 480px;
+}
+
+.eb-icon {
+  font-size: 64px;
+  margin-bottom: 24px;
+  display: block;
+}
+
+.eb-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  color: var(--white);
+  margin-bottom: 16px;
+}
+
+.eb-desc {
+  font-size: 15px;
+  color: rgba(255,255,255,0.55);
+  line-height: 1.75;
+  margin-bottom: 32px;
+}
+
+.eb-desc a {
+  color: var(--gold);
+  text-decoration: underline;
+}
+
+.eb-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.eb-call {
+  color: var(--white) !important;
+  border-color: rgba(255,255,255,0.3) !important;
+}
+
+.eb-details {
+  margin-top: 32px;
+  text-align: left;
+  background: rgba(255,255,255,0.05);
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.eb-details summary {
+  color: rgba(255,255,255,0.4);
+  font-size: 12px;
+  cursor: pointer;
+  margin-bottom: 8px;
+}
+
+.eb-details pre {
+  color: #ff6b6b;
+  font-size: 12px;
+  white-space: pre-wrap;
+  word-break: break-all;
+}

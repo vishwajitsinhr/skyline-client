@@ -1,12 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const { createLead, getAllLeads, updateLeadStatus } = require('../controllers/lead.controller');
+const { leadLimiter } = require('../middleware/rateLimiter');
+const adminAuth = require('../middleware/adminAuth');
 
-// Public
-router.post('/', createLead);
+// Public — rate limited
+router.post('/', leadLimiter, createLead);
 
-// Admin (protect these with auth middleware in production)
-router.get('/', getAllLeads);
-router.patch('/:id', updateLeadStatus);
+// Admin only — protected
+router.get('/', adminAuth, getAllLeads);
+router.patch('/:id', adminAuth, updateLeadStatus);
 
 module.exports = router;
