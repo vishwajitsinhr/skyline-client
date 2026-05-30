@@ -273,7 +273,7 @@ npm run build
 ## 🙋‍♂️ Author
 
 **Vishwajitsinh Rathod**
-- GitHub: [@your-username](https://github.com/your-username)
+- GitHub: 
 - Location: Ahmedabad, Gujarat, India
 
 ---
